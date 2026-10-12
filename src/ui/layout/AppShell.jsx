@@ -58,6 +58,7 @@ const OrderStatusModal = lazy(() => import('../modals/OrderStatusModal.jsx'))
 const AddCustomerModal = lazy(() => import('../modals/AddCustomerModal.jsx'))
 const AddProductModal = lazy(() => import('../modals/AddProductModal.jsx'))
 const ShipmentModal = lazy(() => import('../modals/ShipmentModal.jsx'))
+const ShipmentEditModal = lazy(() => import('../modals/ShipmentEditModal.jsx'))
 const AddSupplierModal = lazy(() => import('../modals/AddSupplierModal.jsx'))
 const SupplierReturnModal = lazy(() => import('../modals/SupplierReturnModal.jsx'))
 const AddExpenseModal = lazy(() => import('../modals/AddExpenseModal.jsx'))
@@ -184,6 +185,7 @@ function AppShell() {
     customer: useUiStore(s => s.customerModal.open),
     product: useUiStore(s => s.productModal.open),
     shipment: useUiStore(s => s.shipmentModal.open),
+    shipmentEdit: useUiStore(s => s.shipmentEditModal.open),
     supplier: useUiStore(s => s.supplierModal.open),
     supplierReturn: useUiStore(s => s.supplierReturnModal.open),
     expense: useUiStore(s => s.expenseModal.open),
@@ -363,6 +365,7 @@ function AppShell() {
       {modalOpen.customer ? <Suspense fallback={null}><AddCustomerModal /></Suspense> : null}
       {modalOpen.product ? <Suspense fallback={null}><AddProductModal /></Suspense> : null}
       {modalOpen.shipment ? <Suspense fallback={null}><ShipmentModal /></Suspense> : null}
+      {modalOpen.shipmentEdit ? <Suspense fallback={null}><ShipmentEditModal /></Suspense> : null}
       {modalOpen.supplier ? <Suspense fallback={null}><AddSupplierModal /></Suspense> : null}
       {modalOpen.supplierReturn ? <Suspense fallback={null}><SupplierReturnModal /></Suspense> : null}
       {modalOpen.expense ? <Suspense fallback={null}><AddExpenseModal /></Suspense> : null}

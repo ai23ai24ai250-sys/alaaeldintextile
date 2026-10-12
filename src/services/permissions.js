@@ -78,6 +78,9 @@ export const canManageProducts = role => role === 'admin' || role === 'storekeep
 /** حذف منتج من المخزون — المدير فقط. */
 export const canDeleteProduct = role => role === 'admin'
 
+/** تعديل شحنة توريد مسجَّلة (كمية/سعر) — المدير فقط (يعدّل المخزون والمديونية). */
+export const canEditShipment = role => role === 'admin'
+
 /** إضافة مورد جديد — المدير فقط. */
 export const canAddSupplier = role => role === 'admin'
 
@@ -139,6 +142,7 @@ if (typeof window !== 'undefined') {
     canManageExpenses,
     canManageProducts,
     canDeleteProduct,
+    canEditShipment,
     canAddSupplier,
     canSeePurchasePrice,
     canSeeSupplierContact,

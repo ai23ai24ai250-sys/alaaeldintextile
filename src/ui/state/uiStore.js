@@ -14,6 +14,7 @@ import {
   canUsePos,
   canUseAi,
   canManageProducts,
+  canEditShipment,
   canManageExpenses,
   canRecordPayment,
   canAddSupplier,
@@ -52,6 +53,8 @@ export const useUiStore = create(set => ({
   productModal: { open: false, productId: null, onDone: null, initialData: null },
 
   shipmentModal: { open: false, productId: null, onDone: null },
+
+  shipmentEditModal: { open: false, productId: null, onDone: null },
 
   supplierModal: { open: false, supplierId: null, onDone: null, initialData: null },
 
@@ -230,6 +233,26 @@ export const useUiStore = create(set => ({
 
   closeShipmentModal() {
     set({ shipmentModal: { open: false, productId: null, onDone: null } })
+  },
+
+  // 🔒 تعديل شحنة توريد مسجَّلة (كمية/سعر) — المدير فقط: يعدّل المخزون ومديونية
+  // المورد ومتوسط التكلفة. بلا صلاحية يعرض تنبيه الحظر ولا يفتح النافذة.
+  openShipmentEditModal(productId, onDone = null) {
+    if (!hasPermission(role => canEditShipment(role))) {
+      showToast('تعديل الشحنات المسجَّلة مخصص للمدير فقط', 'error')
+      return
+    }
+    set({
+      shipmentEditModal: {
+        open: true,
+        productId,
+        onDone: typeof onDone === 'function' ? onDone : null,
+      },
+    })
+  },
+
+  closeShipmentEditModal() {
+    set({ shipmentEditModal: { open: false, productId: null, onDone: null } })
   },
 
   openAddSupplierModal(supplierId = null, onDone = null, initialData = null) {

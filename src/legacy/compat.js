@@ -457,8 +457,11 @@ window.updateProduct = function (id, data) { return products.updateProduct(id, d
 window.deleteProduct = function (id) { return products.deleteProduct(id, dataRepo()); };
 window.decrementProductStock = function (productId, qty) { return products.decrementProductStock(productId, qty, dataRepo()); };
 window.incrementProductStock = function (productId, qty) { return products.incrementProductStock(productId, qty, dataRepo()); };
-window.addStockShipment = function (productId, addedQty, supplierId, unitPurchasePrice, notes, extras) {
-  return products.addStockShipment(productId, addedQty, supplierId, unitPurchasePrice, notes, extras, dataRepo());
+window.addStockShipment = function (productId, addedQty, supplierId, unitPurchasePrice, notes, extras, shipmentDate) {
+  return products.addStockShipment(productId, addedQty, supplierId, unitPurchasePrice, notes, extras, dataRepo(), shipmentDate);
+};
+window.editStockShipment = function (txnId, changes, editedBy) {
+  return products.editStockShipment(txnId, changes, dataRepo(), editedBy);
 };
 
 /* ===================== domain/inventory (supplier returns) ===================== */
