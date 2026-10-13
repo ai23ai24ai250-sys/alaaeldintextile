@@ -71,6 +71,8 @@ const CloudSyncModal = lazy(() => import('../modals/CloudSyncModal.jsx'))
 const StatementModal = lazy(() => import('../modals/StatementModal.jsx'))
 const ContentModal = lazy(() => import('../modals/ContentModal.jsx'))
 const TreasuryAdjustModal = lazy(() => import('../modals/TreasuryAdjustModal.jsx'))
+const PaymentEditModal = lazy(() => import('../modals/PaymentEditModal.jsx'))
+const DebtEditModal = lazy(() => import('../modals/DebtEditModal.jsx'))
 import Card from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
 import { useSettingsStore } from '@/state/settingsStore'
@@ -198,6 +200,8 @@ function AppShell() {
     statement: useUiStore(s => s.statementModal.open),
     content: useUiStore(s => s.contentModal.open),
     treasuryAdjust: useUiStore(s => s.treasuryAdjustModal.open),
+    paymentEdit: useUiStore(s => s.paymentEditModal.open),
+    debtEdit: useUiStore(s => s.debtEditModal.open),
   }
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -378,6 +382,8 @@ function AppShell() {
       {modalOpen.statement ? <Suspense fallback={null}><StatementModal /></Suspense> : null}
       {modalOpen.content ? <Suspense fallback={null}><ContentModal /></Suspense> : null}
       {modalOpen.treasuryAdjust ? <Suspense fallback={null}><TreasuryAdjustModal /></Suspense> : null}
+      {modalOpen.paymentEdit ? <Suspense fallback={null}><PaymentEditModal /></Suspense> : null}
+      {modalOpen.debtEdit ? <Suspense fallback={null}><DebtEditModal /></Suspense> : null}
       <div className="app-frame flex v7-app-frame">
         <aside className="app-sidebar w-60 shrink-0 min-h-screen bg-slate-900/70 border-l border-slate-800 hidden md:flex flex-col v7-sidebar">
           <button

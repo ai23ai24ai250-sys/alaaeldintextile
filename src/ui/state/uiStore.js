@@ -21,6 +21,8 @@ import {
   canManageSettings,
   canManageUsers,
   canAdjustTreasury,
+  canEditPayments,
+  canEditDebt,
 } from '@/services/permissions'
 
 // 🔐 قراءة الدور الحالي من جلسة getCurrentUser (نفس مصدر الحقيقة في auth.js).
@@ -65,6 +67,10 @@ export const useUiStore = create(set => ({
   wipeDatabaseModal: { open: false },
 
   paymentModal: { open: false, defaults: null, onDone: null },
+
+  paymentEditModal: { open: false, paymentId: null, onDone: null },
+
+  debtEditModal: { open: false, entityType: null, entityId: null, onDone: null },
 
   userModal: { open: false, userId: null, onDone: null },
 
@@ -348,6 +354,45 @@ export const useUiStore = create(set => ({
 
   closePaymentModal() {
     set({ paymentModal: { open: false, defaults: null, onDone: null } })
+  },
+
+  // 🔒 تعديل / حذف قيد دفعة مسجَّلة (يعكس الرصيد) — المدير فقط.
+  openPaymentEditModal(paymentId, onDone = null) {
+    if (!hasPermission(role => canEditPayments(role))) {
+      showToast('تعديل أو حذف الدفعات مخصص للمدير فقط', 'error')
+      return
+    }
+    set({
+      paymentEditModal: {
+        open: true,
+        paymentId,
+        onDone: typeof onDone === 'function' ? onDone : null,
+      },
+    })
+  },
+
+  closePaymentEditModal() {
+    set({ paymentEditModal: { open: false, paymentId: null, onDone: null } })
+  },
+
+  // 🔒 تعديل مباشر لمديونية عميل/مورد (المسدد والمتبقي) — المدير فقط.
+  openDebtEditModal(entityType, entityId, onDone = null) {
+    if (!hasPermission(role => canEditDebt(role))) {
+      showToast('تعديل المديونية مخصص للمدير فقط', 'error')
+      return
+    }
+    set({
+      debtEditModal: {
+        open: true,
+        entityType: entityType === 'supplier' ? 'supplier' : 'customer',
+        entityId: entityId || null,
+        onDone: typeof onDone === 'function' ? onDone : null,
+      },
+    })
+  },
+
+  closeDebtEditModal() {
+    set({ debtEditModal: { open: false, entityType: null, entityId: null, onDone: null } })
   },
 
   // 🔒 لوحة إدارة الموظفين مخصصة للمدير العام فقط (نفس بوابة renderUsersView

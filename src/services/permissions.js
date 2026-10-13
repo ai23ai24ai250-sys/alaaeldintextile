@@ -111,6 +111,12 @@ export const canRecalcOrWipe = role => role === 'admin'
 /** تسوية / ضبط رصيد الخزينة اليدوي (قيد تعديل يصحح رصيد الصندوق) — المدير فقط. */
 export const canAdjustTreasury = role => role === 'admin'
 
+/** تعديل / حذف قيد دفعة مسجَّلة (مع عكس الرصيد) — المدير فقط. */
+export const canEditPayments = role => role === 'admin'
+
+/** تعديل مباشر لمديونية عميل/مورد (حقلي المسدد والمتبقي) — المدير فقط. */
+export const canEditDebt = role => role === 'admin'
+
 /* ————— دوال اختصار تقرأ الدور الحالي ————— */
 
 export const currentCanCreateOrder = () => canCreateOrder(currentRole())
@@ -153,5 +159,7 @@ if (typeof window !== 'undefined') {
     canSeeFinancialReports,
     canRecalcOrWipe,
     canAdjustTreasury,
+    canEditPayments,
+    canEditDebt,
   }
 }
